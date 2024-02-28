@@ -6,10 +6,13 @@ spring:
     username: root
     password: 123456
     url: jdbc:mysql://localhost:3306/yupi
+    # session 失效时间 一天（86400s）
+  session:
+    timeout: 86400
 server:
   port: 8080
 
-# 关闭驼峰
+# 关闭驼峰 默认是开启的
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
