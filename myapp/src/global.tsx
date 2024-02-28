@@ -4,6 +4,7 @@ const { pwa } = defaultSettings;
 const isHttps = document.location.protocol === 'https:';
 const clearCache = () => {
   // remove all caches
+  //我来测试一下哈
   if (window.caches) {
     caches
       .keys()
