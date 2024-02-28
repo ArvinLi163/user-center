@@ -29,7 +29,7 @@
             <version>2.2.1</version>
         </dependency>
 
-        <!--commons工具类-->
+        <!--commons工具类 StringUtils-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
