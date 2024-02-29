@@ -60,10 +60,10 @@ declare namespace API {
     code?: number;
     status?: string;
   };
-
+   //小技巧 Shift+F6修改所有地方的变量名 与后端变量保持一致
   type LoginParams = {
-    username?: string;
-    password?: string;
+    userAccount?: string;
+    userPassword?: string;
     autoLogin?: boolean;
     type?: string;
   };
