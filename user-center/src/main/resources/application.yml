@@ -11,6 +11,8 @@ spring:
     timeout: 86400
 server:
   port: 8080
+  servlet:
+    context-path: /api
 
 # 关闭驼峰 默认是开启的
 mybatis-plus:
