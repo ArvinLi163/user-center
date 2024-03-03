@@ -9,11 +9,12 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import {Alert, message, Tabs} from 'antd';
+import {Alert, Divider, message, Space, Tabs} from 'antd';
 import React, {useState} from 'react';
-import {history, useModel} from 'umi';
+import {history,  useModel} from 'umi';
 import styles from './index.less';
 import {PLANET_LINK, SYSTEM_LOGO} from "@/constants"; //把图片logo的常量引入
+import {Link} from "@umijs/preset-dumi/lib/theme";
 const LoginMessage: React.FC<{
   content: string;
 }> = ({content}) => (
@@ -132,17 +133,20 @@ const Login: React.FC = () => {
               marginBottom: 24,
             }}
           >
+            <Space split={<Divider type="vertical" />} />
             <ProFormCheckbox noStyle name="autoLogin">
               自动登录
             </ProFormCheckbox>
+            <Link to="/user/register">新用户注册</Link>
             <a
               style={{
                 float: 'right',
               }}
               href={PLANET_LINK}
-              target="_blank" rel="noreferrer"
+              target="_blank"
+              rel="noreferrer"
             >
-              忘记密码请联系lgy
+              忘记密码
             </a>
           </div>
         </LoginForm>

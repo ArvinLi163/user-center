@@ -22,12 +22,14 @@ declare namespace API {
     address?: string;
     phone?: string;
   };
-
+//登录，后端返回的结果
   type LoginResult = {
     status?: string;
     type?: string;
     currentAuthority?: string;
   };
+  //注册，后端返回的结果
+  type RegisterResult = number;
 
   type PageParams = {
     current?: number;
@@ -60,11 +62,19 @@ declare namespace API {
     code?: number;
     status?: string;
   };
-   //小技巧 Shift+F6修改所有地方的变量名 与后端变量保持一致
+  //小技巧 Shift+F6修改所有地方的变量名 与后端变量保持一致
+  //登录相关参数
   type LoginParams = {
     userAccount?: string;
     userPassword?: string;
     autoLogin?: boolean;
+    type?: string;
+  };
+//注册相关参数 ?代表可选的
+  type RegisterParams = {
+    userAccount?: string;
+    userPassword?: string;
+    checkPassword?: string;
     type?: string;
   };
 
