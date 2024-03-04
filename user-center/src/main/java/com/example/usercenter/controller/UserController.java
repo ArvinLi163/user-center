@@ -56,7 +56,26 @@ public class UserController {
     }
 
     /**
+     * 获取当前登录用户信息
+     * @param request
+     * @return 当前登录用户信息
+     */
+    @GetMapping("/current")
+    public User getCurrentUser(HttpServletRequest request) {
+        //在session里面去登录态
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+        User currentUser = (User) userObj;
+        if (currentUser == null) {
+            return null;
+        }
+        Long userId = currentUser.getId();
+        User user = userService.getById(userId);
+        return userService.getSafetyUser(user);
+    }
+
+    /**
      * 根据用户名进行查询
+     *
      * @param username 用户名
      * @return 符合查询条件的用户
      */
@@ -77,11 +96,11 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public boolean deleteUser(@RequestBody long id,HttpServletRequest request) {
+    public boolean deleteUser(@RequestBody long id, HttpServletRequest request) {
         //仅管理员可删除
-       if (!isAdmin(request)){
-           return false;
-       }
+        if (!isAdmin(request)) {
+            return false;
+        }
         if (id <= 0) {
             return false;
         }
@@ -91,10 +110,11 @@ public class UserController {
 
     /**
      * 是否为管理员
+     *
      * @param request
      * @return
      */
-    private boolean isAdmin(HttpServletRequest request){
+    private boolean isAdmin(HttpServletRequest request) {
         Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
         User user = (User) userObj;
         return user != null && user.getUserRole() == ADMIN_ROLE;
