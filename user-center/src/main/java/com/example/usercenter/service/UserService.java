@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author ArvinLi
  * @description 针对表【user(用户表)】的数据库操作Service
- * @createDate 2024-02-27 09:52:47
  */
 public interface UserService extends IService<User> {
 
@@ -18,9 +17,10 @@ public interface UserService extends IService<User> {
      * @param userAccount   用户账户
      * @param userPassword  用户密码
      * @param checkPassword 校验密码
+     * @param planetCode
      * @return 新用户 id
      */
-    long userRegister(String userAccount, String userPassword, String checkPassword);
+    long userRegister(String userAccount, String userPassword, String checkPassword, String planetCode);
 
     /**
      * 用户登录
@@ -37,4 +37,10 @@ public interface UserService extends IService<User> {
      * @return
      */
     User getSafetyUser(User originUser);
+
+    /**
+     * 用户注销
+     * @param request
+     */
+    int userLogout(HttpServletRequest request);
 }

@@ -12,8 +12,9 @@ declare namespace API {
     phone: string;
     email: string;
     userStatus: number;
-    createTime: Date;
     userRole: number;
+    planetCode: string;
+    createTime: Date;
   };
 //登录，后端返回的结果
   type LoginResult = {
@@ -68,6 +69,7 @@ declare namespace API {
     userAccount?: string;
     userPassword?: string;
     checkPassword?: string;
+    planetCode?: string;
     type?: string;
   };
 

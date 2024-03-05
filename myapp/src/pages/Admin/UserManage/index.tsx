@@ -1,4 +1,5 @@
 import type {ActionType, ProColumns} from '@ant-design/pro-components';
+import { TableDropdown} from '@ant-design/pro-components';
 import {ProTable} from '@ant-design/pro-components';
 import {useRef} from 'react';
 import {searchUsers} from "@/services/ant-design-pro/api";
@@ -59,36 +60,40 @@ const columns: ProColumns<API.CurrentUser>[] = [
     },
   },
   {
+    title: '星球编号',
+    dataIndex: 'planetCode',
+  },
+  {
     title: '创建时间',
     dataIndex: 'createTime',
     valueType: 'date',
   },
 
-  // {
-  //   disable: true,
-  //   title: '状态',
-  //   dataIndex: 'state',
-  //   filters: true,
-  //   onFilter: true,
-  //   ellipsis: true,
-  //   valueType: 'select',
-  //   valueEnum: {
-  //     all: { text: '超长'.repeat(50) },
-  //     open: {
-  //       text: '未解决',
-  //       status: 'Error',
-  //     },
-  //     closed: {
-  //       text: '已解决',
-  //       status: 'Success',
-  //       disabled: true,
-  //     },
-  //     processing: {
-  //       text: '解决中',
-  //       status: 'Processing',
-  //     },
-  //   },
-  // },
+  {
+    title: '操作',
+    valueType: 'option',
+    render: (text, record, _, action) => [
+      <a
+        key="editable"
+        onClick={() => {
+          action?.startEditable?.(record.id);
+        }}
+      >
+        编辑
+      </a>,
+      <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
+        查看
+      </a>,
+      <TableDropdown
+        key="actionGroup"
+        onSelect={() => action?.reload()}
+        menus={[
+          { key: 'copy', name: '复制' },
+          { key: 'delete', name: '删除' },
+        ]}
+      />,
+    ],
+  },
 
 
 ];
