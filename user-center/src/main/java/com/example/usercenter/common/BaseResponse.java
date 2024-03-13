@@ -30,6 +30,7 @@ public class BaseResponse<T> implements Serializable {
         this(code, data, "", "");
     }
 
+    //错误编码
     public BaseResponse(ErrorCode errorCode) {
         this(errorCode.getCode(), null, errorCode.getMessage(), errorCode.getDescription());
     }

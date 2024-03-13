@@ -133,21 +133,22 @@ const Login: React.FC = () => {
               marginBottom: 24,
             }}
           >
-            <Space split={<Divider type="vertical" />} />
-            <ProFormCheckbox noStyle name="autoLogin">
-              自动登录
-            </ProFormCheckbox>
-            <Link to="/user/register">新用户注册</Link>
-            <a
-              style={{
-                float: 'right',
-              }}
-              href={PLANET_LINK}
-              target="_blank"
-              rel="noreferrer"
-            >
-              忘记密码
-            </a>
+            <Space split={<Divider type="vertical" />}>
+              <ProFormCheckbox noStyle name="autoLogin">
+                自动登录
+              </ProFormCheckbox>
+              <Link to="/user/register">新用户注册</Link>
+              <a
+                style={{
+                  float: 'right',
+                }}
+                href={PLANET_LINK}
+                target="_blank"
+                rel="noreferrer"
+              >
+                忘记密码
+              </a>
+            </Space>
           </div>
         </LoginForm>
       </div>

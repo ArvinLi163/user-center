@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.usercenter.common.BaseResponse;
 import com.example.usercenter.common.ErrorCode;
 import com.example.usercenter.common.ResultUtils;
+import com.example.usercenter.exception.BusinessException;
 import com.example.usercenter.model.domain.User;
 import com.example.usercenter.model.domain.request.UserLoginRequest;
 import com.example.usercenter.model.domain.request.UserRegisterRequest;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,41 +30,56 @@ public class UserController {
     @Resource
     UserService userService;
 
+    /**
+     * 用户注册
+     * @param userRegisterRequest
+     * @return
+     */
     @PostMapping("/register")
     public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
         if (userRegisterRequest == null) {
-            return ResultUtils.error(ErrorCode.PARAMS_ERROR);
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         String userAccount = userRegisterRequest.getUserAccount();
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
         String planetCode = userRegisterRequest.getPlanetCode();
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword,planetCode)) {
-            return null;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         long result = userService.userRegister(userAccount, userPassword, checkPassword, planetCode);
         return ResultUtils.success(result);
     }
 
+    /**
+     * 用户注册
+     * @param userLoginRequest
+     * @param request
+     * @return
+     */
     @PostMapping("/login")
     public BaseResponse<User> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
         if (userLoginRequest == null) {
-            return null;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         String userAccount = userLoginRequest.getUserAccount();
         String userPassword = userLoginRequest.getUserPassword();
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
-            return null;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         User user = userService.userLogin(userAccount, userPassword, request);
         return ResultUtils.success(user);
     }
 
-
+    /**
+     * 用户注销
+     * @param request
+     * @return
+     */
     @PostMapping("/logout")
     public BaseResponse<Integer> userLogin(HttpServletRequest request) {
         if (request == null) {
-            return null;
+            throw new BusinessException(ErrorCode.LOGOUT_ERROR);
         }
         int result = userService.userLogout(request);
         return ResultUtils.success(result);
@@ -82,7 +97,8 @@ public class UserController {
         Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
         User currentUser = (User) userObj;
         if (currentUser == null) {
-            return null;
+            //用户未登录
+            throw new BusinessException(ErrorCode.NOT_LOGIN);
         }
         Long userId = currentUser.getId();
         User user = userService.getById(userId);
@@ -100,7 +116,8 @@ public class UserController {
     public BaseResponse<List<User>> searchUsers(String username, HttpServletRequest request) {
         //仅管理员可查询
         if (!isAdmin(request)) {
-            return null;
+            //无权限
+            throw new BusinessException(ErrorCode.NO_AUTH,"缺少管理员权限");
         }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(username)) {
@@ -113,14 +130,22 @@ public class UserController {
         return ResultUtils.success(collect);
     }
 
+    /**
+     * 删除用户
+     * @param id
+     * @param request
+     * @return
+     */
     @PostMapping("/delete")
     public BaseResponse<Boolean> deleteUser(@RequestBody long id, HttpServletRequest request) {
         //仅管理员可删除
         if (!isAdmin(request)) {
-            return null;
+            //无权限
+            throw new BusinessException(ErrorCode.NO_AUTH,"缺少管理员权限");
         }
         if (id <= 0) {
-            return null;
+            //用户不存在
+            throw new BusinessException(ErrorCode.NOT_EXIST);
         }
         //mybatis-plus 删除自动转换为更新（逻辑删除）
         boolean b = userService.removeById(id);
