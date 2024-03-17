@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import {request} from 'umi';
+import request from '@/plugins/globalRequest';
 
 
 /** 获取当前的用户 GET /api/user/current */

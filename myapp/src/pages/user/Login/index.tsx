@@ -60,7 +60,6 @@ const Login: React.FC = () => {
         history.push(redirect || '/');
         return;
       }
-      // console.log(user);
       setUserLoginState(user);
     } catch (error) {
       const defaultLoginFailureMessage = '登录失败，请重试！';
