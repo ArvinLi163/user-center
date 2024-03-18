@@ -9,23 +9,9 @@ import {stringify} from "querystring";
 
 
 /**
- * 异常处理程序
- */
-const errorHandler = (error: { response: Response }): Response => {
-  const {response} = error;
-  if (response && response.status) {
-
-  } else if (!response) {
-
-  }
-  return response;
-};
-
-/**
  * 配置request请求时的默认参数
  */
 const request = extend({
-  errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
   // requestType: 'form',
 });
@@ -64,7 +50,9 @@ request.interceptors.response.use(async (response, options): Promise<any> => {
   }else {
     message.error(res.description)
   }
+  console.log(res.data)
   return res.data;
+
 });
 
 export default request;

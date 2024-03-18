@@ -112,7 +112,8 @@ export default () => {
         return {
           data: userList,
         }
-      }}
+      }
+      }
       editable={{
         type: 'multiple',
       }}
